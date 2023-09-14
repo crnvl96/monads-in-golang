@@ -8,36 +8,35 @@ type numberWithLogs struct {
 }
 
 func main() {
-	fmt.Println(addOne(square(wrapWithLogs(2))))
+	fmt.Println(runWithLogs(addOne(2), addOne))
 }
 
-func wrapWithLogs(i int) numberWithLogs {
-	return numberWithLogs{
-		result: i,
-		logs:   []string{},
-	}
-}
+// func wrapWithLogs(i int) numberWithLogs {
+// 	return numberWithLogs{
+// 		result: i,
+// 		logs:   []string{},
+// 	}
+// }
 
-func square(i numberWithLogs) numberWithLogs {
-	numberWithLogsFactory := numberWithLogs{
-		result: i.result * i.result,
-		logs:   []string{fmt.Sprintf("Squared %d to get %d", i.result, i.result*i.result)},
-	}
+func runWithLogs(i numberWithLogs, transform func(int) numberWithLogs) numberWithLogs {
+	factory := transform(i.result)
 
 	return numberWithLogs{
-		result: numberWithLogsFactory.result,
-		logs:   append(i.logs, numberWithLogsFactory.logs...),
+		result: factory.result,
+		logs:   append(i.logs, factory.logs...),
 	}
 }
 
-func addOne(i numberWithLogs) numberWithLogs {
-	numberWithLogsFactory := numberWithLogs{
-		result: i.result + 1,
-		logs:   []string{fmt.Sprintf("Added 1 to %d to get %d", i.result, i.result+1)},
-	}
-
+func square(i int) numberWithLogs {
 	return numberWithLogs{
-		result: numberWithLogsFactory.result,
-		logs:   append(i.logs, numberWithLogsFactory.logs...),
+		result: i * i,
+		logs:   []string{fmt.Sprintf("Squared %d to get %d", i, i*i)},
+	}
+}
+
+func addOne(i int) numberWithLogs {
+	return numberWithLogs{
+		result: i + 1,
+		logs:   []string{fmt.Sprintf("Added one to %d to get %d", i, i+1)},
 	}
 }
