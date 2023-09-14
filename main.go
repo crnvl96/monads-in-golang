@@ -19,15 +19,25 @@ func wrapWithLogs(i int) numberWithLogs {
 }
 
 func square(i numberWithLogs) numberWithLogs {
-	return numberWithLogs{
+	numberWithLogsFactory := numberWithLogs{
 		result: i.result * i.result,
-		logs:   append(i.logs, fmt.Sprintf("Squared %d to get %d", i.result, i.result*i.result)),
+		logs:   []string{fmt.Sprintf("Squared %d to get %d", i.result, i.result*i.result)},
+	}
+
+	return numberWithLogs{
+		result: numberWithLogsFactory.result,
+		logs:   append(i.logs, numberWithLogsFactory.logs...),
 	}
 }
 
 func addOne(i numberWithLogs) numberWithLogs {
-	return numberWithLogs{
+	numberWithLogsFactory := numberWithLogs{
 		result: i.result + 1,
-		logs:   append(i.logs, fmt.Sprintf("Added 1 to %d to get %d", i.result, i.result+1)),
+		logs:   []string{fmt.Sprintf("Added 1 to %d to get %d", i.result, i.result+1)},
+	}
+
+	return numberWithLogs{
+		result: numberWithLogsFactory.result,
+		logs:   append(i.logs, numberWithLogsFactory.logs...),
 	}
 }
