@@ -2,14 +2,32 @@ package main
 
 import "fmt"
 
+type numberWithLogs struct {
+	logs   []string
+	result int
+}
+
 func main() {
-	fmt.Println("Hello, World!")
+	fmt.Println(addOne(square(wrapWithLogs(2))))
 }
 
-func square(i int) int {
-	return i * i
+func wrapWithLogs(i int) numberWithLogs {
+	return numberWithLogs{
+		result: i,
+		logs:   []string{},
+	}
 }
 
-func addOne(i int) int {
-	return i + 1
+func square(i numberWithLogs) numberWithLogs {
+	return numberWithLogs{
+		result: i.result * i.result,
+		logs:   append(i.logs, fmt.Sprintf("Squared %d to get %d", i.result, i.result*i.result)),
+	}
+}
+
+func addOne(i numberWithLogs) numberWithLogs {
+	return numberWithLogs{
+		result: i.result + 1,
+		logs:   append(i.logs, fmt.Sprintf("Added 1 to %d to get %d", i.result, i.result+1)),
+	}
 }
