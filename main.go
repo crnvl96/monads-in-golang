@@ -7,17 +7,6 @@ type numberWithLogs struct {
 	result int
 }
 
-func main() {
-	fmt.Println(runWithLogs(addOne(2), addOne))
-}
-
-// func wrapWithLogs(i int) numberWithLogs {
-// 	return numberWithLogs{
-// 		result: i,
-// 		logs:   []string{},
-// 	}
-// }
-
 func runWithLogs(i numberWithLogs, transform func(int) numberWithLogs) numberWithLogs {
 	factory := transform(i.result)
 
@@ -39,4 +28,8 @@ func addOne(i int) numberWithLogs {
 		result: i + 1,
 		logs:   []string{fmt.Sprintf("Added one to %d to get %d", i, i+1)},
 	}
+}
+
+func main() {
+	fmt.Println(runWithLogs(addOne(2), addOne))
 }
