@@ -3,9 +3,10 @@ package operations
 import (
 	"fmt"
 
-	"github.com/crnvl96/monads-in-golang/monads"
+	"github.com/crnvl96/monads-in-golang/log_monad/monads"
 )
 
+// These must return the monadic WrapperType
 func Square(i int) monads.NumberWithLogs {
 	return monads.NumberWithLogs{
 		Result: i * i,
